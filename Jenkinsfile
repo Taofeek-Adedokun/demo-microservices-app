@@ -1,11 +1,15 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HUB_CREDENTIALS = 'dockerhub-credentials' // Your credential ID
+    }
+
     stages {
         stage('Build Frontend Image') {
             steps {
                 script {
-                    docker.build("frontend:latest", "./frontend")
+                    docker.build("your_dockerhub_username/frontend:latest", "./frontend")
                 }
             }
         }
@@ -13,7 +17,7 @@ pipeline {
         stage('Build Backend Image') {
             steps {
                 script {
-                    docker.build("backend:latest", "./backend")
+                    docker.build("your_dockerhub_username/backend:latest", "./backend")
                 }
             }
         }
@@ -21,11 +25,20 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Assuming you have a Docker daemon running on Jenkins
-                    sh 'docker run -d -p 80:80 frontend:latest'
-                    sh 'docker run -d -p 3000:3000 backend:latest'
+                    // Run Docker containers on Jenkins' Docker daemon
+                    sh 'docker run -d -p 80:80 your_dockerhub_username/frontend:latest'
+                    sh 'docker run -d -p 3000:3000 your_dockerhub_username/backend:latest'
                 }
             }
         }
     }
+
+    post {
+        always {
+            script {
+                sh 'docker system prune -f' // Clean up unused Docker resources
+            }
+        }
+    }
 }
+
