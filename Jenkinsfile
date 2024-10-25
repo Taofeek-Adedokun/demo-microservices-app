@@ -9,7 +9,7 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                 script {
-                    docker.build("your_dockerhub_username/frontend:latest", "./frontend")
+                    docker.build("Neyomr47/frontend:latest", "./frontend")
                 }
             }
         }
@@ -17,7 +17,7 @@ pipeline {
         stage('Build Backend Image') {
             steps {
                 script {
-                    docker.build("your_dockerhub_username/backend:latest", "./backend")
+                    docker.build("Neyomr47/backend:latest", "./backend")
                 }
             }
         }
@@ -26,8 +26,8 @@ pipeline {
             steps {
                 script {
                     // Run Docker containers on Jenkins' Docker daemon
-                    sh 'docker run -d -p 80:80 your_dockerhub_username/frontend:latest'
-                    sh 'docker run -d -p 3000:3000 your_dockerhub_username/backend:latest'
+                    sh 'docker run -d -p 80:80 Neyomr47/frontend:latest'
+                    sh 'docker run -d -p 3000:3000 Neyomr47/backend:latest'
                 }
             }
         }
